@@ -119,7 +119,7 @@ const projects = [
     id: "Thesis: Senses Through Time",
     title: "Thesis: Senses Through Time",
     year: "Perception driven interventions | 2022",
-    description: "bla bla bla",
+    description: "",
     images: [
       "/images/114_Thesis.jpg",
       "/images/115_Thesis.jpg",
