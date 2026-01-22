@@ -16,7 +16,7 @@ const projectBuckets = [
   {
     name: "Professional Work",
     projects: [
-      { title: "MSPP", id: "MSPP" },
+      { title: "Market Street Power Plant", id: "Market Street Power Plant" },
       { title: "Forum", id: "Forum" },
       { title: "Retina", id: "Retina" },
     ],

@@ -64,8 +64,8 @@ const projects = [
     ],
   },
   {
-    id: "MSPP",
-    title: "MSPP",
+    id: "Market Street Power Plant",
+    title: "Market Street Power Plant",
     year: "Adaptive reuse entertainment hub | 2022-2024",
     description:
       "The abandoned New Orleans Power Plant reimagined into a mixed use entertainment hub that pays respect and preserves its memory. It was important for us to not only keep the existing elements such as generators, turbines, and pipes, but to incorporate the new design around them. A radial staircase fully immerses visitors inside the pipe archway, and a turbine on level one became the centerpiece to the lobby. Visitors can now also enjoy the rooftop terrace equipped with a greenhouse-like event space that follows the language of the previous structure, while allowing for unobstructed views to the city.",
