@@ -116,7 +116,7 @@ export function HorizontalGallery({ id, title, year, images, description, videoE
     const setInitialPosition = () => {
       const oneThird = container.scrollWidth / 3
       const offset = container.clientWidth * 0.08
-      container.scrollLeft = oneThird - offset
+      container.scrollLeft = oneThird + offset
       hasInitialized.current = true
     }
 
