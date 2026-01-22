@@ -108,19 +108,24 @@ export function HorizontalGallery({ id, title, year, images, description, videoE
 
   const hasInitialized = useRef(false)
 
-  // Set initial scroll position only once on mount
+  // Set initial scroll position - wait for content to be ready
   useEffect(() => {
     const container = scrollContainerRef.current
-    if (!container || hasInitialized.current) return
+    if (!container) return
 
-    const timeout = setTimeout(() => {
+    const setInitialPosition = () => {
       const oneThird = container.scrollWidth / 3
       const offset = container.clientWidth * 0.08
       container.scrollLeft = oneThird - offset
       hasInitialized.current = true
-    }, 500)
+    }
 
-    return () => clearTimeout(timeout)
+    // Set position multiple times to handle image loading
+    const timeouts = [100, 300, 600, 1000].map(delay =>
+      setTimeout(setInitialPosition, delay)
+    )
+
+    return () => timeouts.forEach(clearTimeout)
   }, [])
 
   // Auto-scroll effect with infinite loop (continues from current position)
