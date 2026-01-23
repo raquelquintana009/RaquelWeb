@@ -85,11 +85,11 @@ const projects = [
     description:
       "Addition consisting of three buildings and landscape to a high end shopping center in Carlsbad, California. Asking the question of how to keep visitors on a site longer. Keep them entertained, comfortable, and excited to return.",
     images: [
-      "/images/61_Forum.jpg",
       "/images/62_Forum.jpg",
       "/images/65_Forum.jpg",
       "/images/66_Forum.jpg",
       "/images/64_Forum.jpg",
+      "/images/61_Forum.jpg",
     ],
   },
   {
