@@ -1,7 +1,7 @@
 export function SiteFooter() {
   return (
     <footer className="px-6 md:px-12 py-12 mt-20 border-t border-border">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
         <a
           href="mailto:raquelquintana009@gmail.com"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"

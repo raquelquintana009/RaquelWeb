@@ -191,7 +191,7 @@ export default function Home() {
           <div className="max-w-3xl rounded-2xl border p-6 md:p-10">
             <h2 className="text-2xl font-semibold">Contact</h2>
 
-            <div className="mt-6 flex gap-2">
+            <div className="mt-6 flex flex-col md:flex-row gap-2">
               <div className="flex-1 rounded-lg border p-4">
                 <p className="text-sm text-muted-foreground">Email</p>
                 <a className="mt-1 block font-medium underline underline-offset-4 text-sm" href="mailto:raquelquintana009@gmail.com">
@@ -212,7 +212,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-4 flex gap-2">
+            <div className="mt-4 flex flex-col md:flex-row gap-2">
               <a
                 href="/raquel_quintana_resume.pdf"
                 download
