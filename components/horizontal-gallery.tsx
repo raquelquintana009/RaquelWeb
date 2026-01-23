@@ -106,7 +106,7 @@ export function HorizontalGallery({ id, title, year, images, description, videoE
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const hasInitialized = useRef(false)
+  const [isInitialized, setIsInitialized] = useState(false)
 
   // Set initial scroll position - wait for content to be ready
   useEffect(() => {
@@ -117,7 +117,7 @@ export function HorizontalGallery({ id, title, year, images, description, videoE
       const oneThird = container.scrollWidth / 3
       const offset = container.clientWidth * 0.08
       container.scrollLeft = oneThird + offset
-      hasInitialized.current = true
+      setIsInitialized(true)
     }
 
     // Set position multiple times to handle image loading
@@ -128,10 +128,13 @@ export function HorizontalGallery({ id, title, year, images, description, videoE
     return () => timeouts.forEach(clearTimeout)
   }, [])
 
-  // Auto-scroll effect with infinite loop (continues from current position)
+  // Auto-scroll effect with infinite loop - scrolls by default, stops on hover
   useEffect(() => {
     const container = scrollContainerRef.current
-    if (!container || isHovering || lightboxOpen || isDragging || !hasInitialized.current) return
+    if (!container || !isInitialized || lightboxOpen || isDragging) return
+
+    // Stop scrolling when hovering
+    if (isHovering) return
 
     const scrollSpeed = 0.3 // pixels per frame
     let animationId: number
@@ -160,7 +163,7 @@ export function HorizontalGallery({ id, title, year, images, description, videoE
       isScrolling = false
       cancelAnimationFrame(animationId)
     }
-  }, [isHovering, lightboxOpen, isDragging])
+  }, [isHovering, lightboxOpen, isDragging, isInitialized])
 
   const scroll = (direction: "left" | "right") => {
     const container = scrollContainerRef.current

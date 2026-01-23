@@ -70,12 +70,12 @@ const projects = [
     description:
       "The abandoned New Orleans Power Plant reimagined into a mixed use entertainment hub that pays respect and preserves its memory. It was important for us to not only keep the existing elements such as generators, turbines, and pipes, but to incorporate the new design around them. A radial staircase fully immerses visitors inside the pipe archway, and a turbine on level one became the centerpiece to the lobby. Visitors can now also enjoy the rooftop terrace equipped with a greenhouse-like event space that follows the language of the previous structure, while allowing for unobstructed views to the city.",
     images: [
-      "/images/51_MSPP.jpg",
       "/images/52_MSPP.jpg",
       "/images/53_MSPP.jpg",
       "/images/54_MSPP.jpg",
       "/images/56_MSPP.png",
       "/images/57_MSPP.png",
+      "/images/51_MSPP.jpg",
     ],
   },
   {
