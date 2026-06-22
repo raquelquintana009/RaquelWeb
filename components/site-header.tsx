@@ -168,6 +168,13 @@ export function SiteHeader() {
               >
                 LinkedIn
               </a>
+              <a
+                href="/raquel_quintana_resume.pdf"
+                download
+                className="block px-3 py-2 text-sm text-foreground hover:bg-foreground/5 transition-colors"
+              >
+                Download Resume
+              </a>
             </div>
           )}
         </div>
