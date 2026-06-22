@@ -5,20 +5,20 @@ import { useState, useRef, useEffect } from "react"
 
 const projectBuckets = [
   {
+    name: "Professional Work",
+    projects: [
+      { title: "Market Street Power Plant", id: "Market Street Power Plant" },
+      { title: "Forum", id: "Forum" },
+      { title: "Retina", id: "Retina" },
+    ],
+  },
+  {
     name: "Built Public Interventions",
     projects: [
       { title: "Liminal Breath", id: "Liminal Breath" },
       { title: "Infinite Space", id: "Infinite Space" },
       { title: "Eixir", id: "Eixir" },
       { title: "Catenary Pavilion", id: "Catenary Pavilion" },
-    ],
-  },
-  {
-    name: "Professional Work",
-    projects: [
-      { title: "Market Street Power Plant", id: "Market Street Power Plant" },
-      { title: "Forum", id: "Forum" },
-      { title: "Retina", id: "Retina" },
     ],
   },
   {

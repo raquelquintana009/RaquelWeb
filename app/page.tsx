@@ -4,13 +4,49 @@ import { HorizontalGallery } from "@/components/horizontal-gallery"
 
 const projects = [
   {
+    id: "Market Street Power Plant",
+    title: "Market Street Power Plant",
+    year: "Adaptive reuse entertainment hub | 2022-2024",
+    description:
+      "The abandoned New Orleans Power Plant reimagined into a mixed use entertainment hub that pays respect and preserves its memory. It was important for us to not only keep the existing elements such as generators, turbines, and pipes, but to incorporate the new design around them. A radial staircase fully immerses visitors inside the pipe archway, and a turbine on level one became the centerpiece to the lobby. Visitors can now also enjoy the rooftop terrace equipped with a greenhouse-like event space that follows the language of the previous structure, while allowing for unobstructed views to the city.",
+    images: [
+      "/images/52_MSPP.jpg",
+      "/images/53_MSPP.jpg",
+      "/images/54_MSPP.jpg",
+      "/images/56_MSPP.png",
+      "/images/57_MSPP.png",
+      "/images/51_MSPP.jpg",
+    ],
+  },
+  {
+    id: "Forum",
+    title: "Forum",
+    year: "Masterplan restaurant concept | 2022-2024",
+    description:
+      "Addition consisting of three buildings and landscape to a high end shopping center in Carlsbad, California. Asking the question of how to keep visitors on a site longer. Keep them entertained, comfortable, and excited to return.",
+    images: [
+      "/images/62_Forum.jpg",
+      "/images/65_Forum.jpg",
+      "/images/66_Forum.jpg",
+      "/images/64_Forum.jpg",
+      "/images/61_Forum.jpg",
+    ],
+  },
+  {
+    id: "Retina",
+    title: "Retina",
+    year: "Biophilic healthcare interior | 2024",
+    description:
+      "An eye clinic that cares about the other senses. Patients come with visual sensitivities, with their other senses heightened. The space welcomes their sensitivities and invites them in different ways. Color coding the floors helps to gently guide them into a welcoming environment, while felt ceilings and natural materials utilize their natural instincts, allowing them to feel safe during their wait times. It aims to satisfy patients' needs in a way they don't have to see.",
+    images: ["/images/71_Retina.jpg", "/images/72_Retina.jpg", "/images/73_Retina.jpg", "/images/74_Retina.jpg"],
+  },
+  {
     id: "Liminal Breath",
     title: "Liminal Breath",
     year: "Inflatable threshold installation | 2025",
     description:
       "An installation in an abandoned building set to be demolished. Viewing the building as a living organism, the work seeks to breathe life into the space moments before its death. As the wind moves through the building in an entropic dance, the material can inflate quickly, collapse slowly, transition from interior to exterior, and find a natural hypnotic rhythm. The forms begin to resemble ghostly lungs, growing and shrinking in a fragile fight for vitality. In the liminal state between life and death, life fills the building for one last time.",
     images: [
-      "/images/1_Breath.jpg",
       "/images/2_Breath.jpg",
       "/images/3_Breath.jpg",
       "/images/4_Breath.jpg",
@@ -26,7 +62,7 @@ const projects = [
     title: "Infinite Space",
     year: "Modular micro pavilion | 2025",
     description:
-      "Attempts to break apart the conventional box. Shifting the stand’s legs allowed us to replace the standard volume with a crossroad, giving a level of choice to the users, while allowing for four sided interactions during markets. It provides new ways of encouraging social engagement, calling attention, and using shade to overcome boundaries. All components break down to fit into the four boxes shown, easily transporting locations by car.",
+      "Attempts to break apart the conventional box. Shifting the stand's legs allowed us to replace the standard volume with a crossroad, giving a level of choice to the users, while allowing for four sided interactions during markets. It provides new ways of encouraging social engagement, calling attention, and using shade to overcome boundaries. All components break down to fit into the four boxes shown, easily transporting locations by car.",
     images: [
       "/images/21_Infinite.JPG",
       "https://fi8lzzvr3fkqsil2.public.blob.vercel-storage.com/22_Infinite%20Space%20copy%20%281%29.mp4",
@@ -62,43 +98,6 @@ const projects = [
       "/images/45_Chain.jpg",
       "/images/46_Chain.jpg",
     ],
-  },
-  {
-    id: "Market Street Power Plant",
-    title: "Market Street Power Plant",
-    year: "Adaptive reuse entertainment hub | 2022-2024",
-    description:
-      "The abandoned New Orleans Power Plant reimagined into a mixed use entertainment hub that pays respect and preserves its memory. It was important for us to not only keep the existing elements such as generators, turbines, and pipes, but to incorporate the new design around them. A radial staircase fully immerses visitors inside the pipe archway, and a turbine on level one became the centerpiece to the lobby. Visitors can now also enjoy the rooftop terrace equipped with a greenhouse-like event space that follows the language of the previous structure, while allowing for unobstructed views to the city.",
-    images: [
-      "/images/52_MSPP.jpg",
-      "/images/53_MSPP.jpg",
-      "/images/54_MSPP.jpg",
-      "/images/56_MSPP.png",
-      "/images/57_MSPP.png",
-      "/images/51_MSPP.jpg",
-    ],
-  },
-  {
-    id: "Forum",
-    title: "Forum",
-    year: "Masterplan restaurant concept | 2022-2024",
-    description:
-      "Addition consisting of three buildings and landscape to a high end shopping center in Carlsbad, California. Asking the question of how to keep visitors on a site longer. Keep them entertained, comfortable, and excited to return.",
-    images: [
-      "/images/62_Forum.jpg",
-      "/images/65_Forum.jpg",
-      "/images/66_Forum.jpg",
-      "/images/64_Forum.jpg",
-      "/images/61_Forum.jpg",
-    ],
-  },
-  {
-    id: "Retina",
-    title: "Retina",
-    year: "Biophilic healthcare interior | 2024",
-    description:
-      "An eye clinic that cares about the other senses. Patients come with visual sensitivities, with their other senses heightened. The space welcomes their sensitivities and invites them in different ways. Color coding the floors helps to gently guide them into a welcoming environment, while felt ceilings and natural materials utilize their natural instincts, allowing them to feel safe during their wait times. It aims to satisfy patients’ needs in a way they don’t have to see.",
-    images: ["/images/71_Retina.jpg", "/images/72_Retina.jpg", "/images/73_Retina.jpg", "/images/74_Retina.jpg"],
   },
   {
     id: "Horizon",
