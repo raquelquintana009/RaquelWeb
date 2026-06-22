@@ -15,8 +15,10 @@ interface HorizontalGalleryProps {
 
 export function HorizontalGallery({ id, title, year, images, description, videoEmbed }: HorizontalGalleryProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const iframeRefs = useRef<Map<number, HTMLIFrameElement>>(new Map())
   const [playingVideos, setPlayingVideos] = useState<Set<number>>(new Set([0, 1, 2])) // First 3 instances autoplay
+  const [isInView, setIsInView] = useState(false)
 
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
@@ -304,8 +306,51 @@ export function HorizontalGallery({ id, title, year, images, description, videoE
     }
   }, [lightboxOpen, lightboxImages.length])
 
+  // Intersection Observer to auto-play video when section comes into view
+  useEffect(() => {
+    if (!videoEmbed) return
+
+    const section = sectionRef.current
+    if (!section) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsInView(true)
+            // Trigger play on all YouTube iframes when section comes into view
+            iframeRefs.current.forEach((iframe, index) => {
+              if (iframe?.contentWindow) {
+                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', "*")
+                setPlayingVideos(prev => new Set(prev).add(index))
+              }
+            })
+          } else {
+            setIsInView(false)
+            // Pause videos when section leaves view
+            iframeRefs.current.forEach((iframe, index) => {
+              if (iframe?.contentWindow) {
+                iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', "*")
+                setPlayingVideos(prev => {
+                  const next = new Set(prev)
+                  next.delete(index)
+                  return next
+                })
+              }
+            })
+          }
+        })
+      },
+      { threshold: 0.3 } // Trigger when 30% of section is visible
+    )
+
+    observer.observe(section)
+
+    return () => observer.disconnect()
+  }, [videoEmbed])
+
   return (
-    <section id={id} className="mb-20 md:mb-32 scroll-mt-24">
+    <section ref={sectionRef} id={id} className="mb-20 md:mb-32 scroll-mt-24">
       {/* Header */}
       <div className="px-6 md:px-12 border-card-foreground border-b mb-3 py-2">
         <div className="flex items-baseline justify-between gap-4">
