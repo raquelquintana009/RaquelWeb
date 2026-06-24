@@ -220,7 +220,7 @@ export default function Home() {
                 Download Resume (PDF)
               </a>
               <a
-                href="https://fi8lzzvr3fkqsil2.public.blob.vercel-storage.com/raquel_quintana_portfolio.pdf"
+                href="/raquel_quintana_portfolio.pdf"
                 download
                 className="flex-1 inline-flex items-center justify-center rounded-md border border-foreground bg-background px-4 py-2 text-sm font-medium text-foreground hover:opacity-70"
               >
