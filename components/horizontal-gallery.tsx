@@ -135,6 +135,10 @@ export function HorizontalGallery({ id, title, year, images, description, videoE
     const container = scrollContainerRef.current
     if (!container || !isInitialized || lightboxOpen || isDragging) return
 
+    // Don't start scrolling until the gallery has been scrolled into view
+    // (i.e. past the hero video) or navigated to.
+    if (!isInView) return
+
     // Stop scrolling when hovering
     if (isHovering) return
 
@@ -165,7 +169,7 @@ export function HorizontalGallery({ id, title, year, images, description, videoE
       isScrolling = false
       cancelAnimationFrame(animationId)
     }
-  }, [isHovering, lightboxOpen, isDragging, isInitialized])
+  }, [isHovering, lightboxOpen, isDragging, isInitialized, isInView])
 
   const scroll = (direction: "left" | "right") => {
     const container = scrollContainerRef.current
@@ -348,6 +352,23 @@ export function HorizontalGallery({ id, title, year, images, description, videoE
 
     return () => observer.disconnect()
   }, [videoEmbed])
+
+  // General in-view observer — gates the auto-scroll so it only runs while
+  // the gallery is actually on screen (not while the hero video is showing).
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => setIsInView(entry.isIntersecting))
+      },
+      { threshold: 0.15 }
+    )
+
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section ref={sectionRef} id={id} className="mb-20 md:mb-32 scroll-mt-24">
