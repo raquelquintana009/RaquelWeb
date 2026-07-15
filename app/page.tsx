@@ -1,6 +1,8 @@
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { HorizontalGallery } from "@/components/horizontal-gallery"
+import { HeroVideo } from "@/components/hero-video"
+import { ProcessGrid } from "@/components/process-grid"
 
 const projects = [
   {
@@ -124,9 +126,6 @@ const projects = [
       "/images/115_Thesis.jpg",
       "/images/116_Thesis.jpg",
       "/images/117_Thesis.jpg",
-      "/images/118_Thesis.jpg",
-      "/images/119_Thesis.jpg",
-      "/images/120_Thesis.jpg",
       "/images/121_Thesis.jpg",
       "/images/122_Thesis.jpg",
       "/images/123_Thesis.jpg",
@@ -140,38 +139,12 @@ export default function Home() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      <main className="pt-28 md:pt-[100px]">
-        {/* ===== HERO / BIO ===== */}
-        <section className="px-6 md:px-12 pb-0">
-          <div className="max-w-3xl">
-              <p className="text-base tracking-wide text-muted-foreground">
-                Urban Designer • Public Realm • Experiential Interventions
-              </p>
-
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                Combining corporate scale project delivery with hands on public realm, placemaking, and ephemeral
-                architecture. Background spans urban interventions, adaptive reuse, and experiential public work. Strong at
-                translating strategy into spatial concepts, leading multidisciplinary teams, and delivering design work that
-                shapes how people experience cities.
-              </p>
-
-              <div className="mt-5 flex flex-wrap gap-2">
-                {[
-                  "Narratives, diagrams, frameworks",
-                  "Human behavior + Movement",
-                  "Time Based Change",
-                  "Rhino / Revit / SketchUp / Adobe",
-                ].map((t) => (
-                  <span key={t} className="rounded-full border px-3 py-1 text-xs text-muted-foreground">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-        </section>
+      <main>
+        {/* ===== HOME ===== */}
+        <HeroVideo />
 
         {/* ===== PROJECTS ===== */}
-        <section className="pt-6">
+        <section id="projects" className="pt-24 md:pt-28">
           {projects.map((project) => (
             <HorizontalGallery
               key={project.id}
@@ -183,6 +156,39 @@ export default function Home() {
               videoEmbed={project.videoEmbed}
             />
           ))}
+        </section>
+
+        {/* ===== PROCESS ===== */}
+        <ProcessGrid />
+
+        {/* ===== ABOUT ===== */}
+        <section id="about" className="px-6 md:px-12 pt-24 md:pt-28">
+          <div className="max-w-3xl">
+            <p className="text-base tracking-wide text-muted-foreground">
+              Urban Designer • Public Realm • Placemaking
+            </p>
+
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              Passionate about the relationship between people and place, finding meaning in the in-between. Work focuses
+              on the public realm at different scales, from district to urban interventions. With experience delivering
+              large scale projects and a process grounded in exploration and making, I enjoy turning complex problems
+              into places people remember.
+            </p>
+
+            <div className="mt-5 flex flex-wrap gap-2">
+              {[
+                "Narrative",
+                "Movement",
+                "Time Based Change",
+                "Material Exploration",
+                "Urban Frameworks",
+              ].map((t) => (
+                <span key={t} className="rounded-full border px-3 py-1 text-xs text-muted-foreground">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* ===== CONTACT ===== */}
