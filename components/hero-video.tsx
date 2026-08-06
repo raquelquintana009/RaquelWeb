@@ -27,6 +27,18 @@ export function HeroVideo() {
     video.setAttribute("x5-playsinline", "true") // Android UC / QQ (Tencent X5)
     video.setAttribute("x5-video-player-type", "h5-page")
 
+    // Reveal the video the moment it truly has a frame or is advancing. This
+    // reads the *live* element state rather than relying on React's
+    // onLoadedData/onPlaying — with preload="auto" the media often finishes
+    // loading before React hydrates, so those synthetic events fire into the
+    // void and are missed, which would leave the video playing but stuck at
+    // opacity 0 behind the poster (looks like it never started).
+    const reveal = () => setVisible(true)
+    if (video.readyState >= 2 || video.currentTime > 0) reveal()
+    video.addEventListener("loadeddata", reveal)
+    video.addEventListener("playing", reveal)
+    video.addEventListener("timeupdate", reveal, { once: true })
+
     const tryPlay = () => {
       const p = video.play()
       if (p && typeof p.catch === "function") p.catch(() => {})
@@ -52,6 +64,9 @@ export function HeroVideo() {
     document.addEventListener("visibilitychange", onVisible)
 
     return () => {
+      video.removeEventListener("loadeddata", reveal)
+      video.removeEventListener("playing", reveal)
+      video.removeEventListener("timeupdate", reveal)
       video.removeEventListener("loadedmetadata", tryPlay)
       video.removeEventListener("canplay", tryPlay)
       video.removeEventListener("stalled", tryPlay)
@@ -87,10 +102,6 @@ export function HeroVideo() {
         playsInline
         preload="auto"
         poster="/liminal-breath-poster.jpg"
-        // Reveal as soon as the first frame is decoded OR playback starts, so
-        // the video is never stuck hidden behind the poster if autoplay stalls.
-        onLoadedData={() => setVisible(true)}
-        onPlaying={() => setVisible(true)}
       >
         <source src="/liminal-breath.mp4" type="video/mp4" />
       </video>
