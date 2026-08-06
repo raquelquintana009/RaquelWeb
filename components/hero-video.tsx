@@ -11,14 +11,21 @@ export function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [visible, setVisible] = useState(false)
 
-  // React doesn't reliably set the `muted` DOM property before the browser's
-  // autoplay check, which can block playback. Force muted, then attempt play
-  // aggressively and keep a fallback path so it can never end up stuck paused.
+  // Maximise inline muted-autoplay support across every device/browser.
+  // React doesn't reliably emit the `muted`/inline attributes before the
+  // browser's autoplay check, so set them explicitly, then attempt play
+  // aggressively with fallbacks so it can never end up stuck paused.
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
     video.muted = true
     video.defaultMuted = true
+    // Inline-playback hints for the full device matrix.
+    video.setAttribute("muted", "")
+    video.setAttribute("playsinline", "")
+    video.setAttribute("webkit-playsinline", "true") // old iOS Safari
+    video.setAttribute("x5-playsinline", "true") // Android UC / QQ (Tencent X5)
+    video.setAttribute("x5-video-player-type", "h5-page")
 
     const tryPlay = () => {
       const p = video.play()
@@ -29,21 +36,29 @@ export function HeroVideo() {
     // Retry as the media becomes ready, in case the first attempt was early.
     video.addEventListener("loadedmetadata", tryPlay)
     video.addEventListener("canplay", tryPlay)
+    video.addEventListener("stalled", tryPlay)
 
-    // If autoplay is blocked (iOS Low Power Mode, data saver, background tab),
-    // start on the first user interaction or when the tab becomes visible.
+    // Fallback for devices that block autoplay outright (iOS Low Power Mode,
+    // data saver, strict autoplay settings): start on the first interaction of
+    // any kind, or when the tab becomes visible.
     const kick = () => tryPlay()
     const onVisible = () => { if (!document.hidden) tryPlay() }
-    window.addEventListener("pointerdown", kick, { passive: true })
-    window.addEventListener("touchstart", kick, { passive: true })
+    const opts: AddEventListenerOptions = { passive: true }
+    window.addEventListener("pointerdown", kick, opts)
+    window.addEventListener("touchstart", kick, opts)
+    window.addEventListener("touchend", kick, opts)
+    window.addEventListener("scroll", kick, opts)
     window.addEventListener("keydown", kick)
     document.addEventListener("visibilitychange", onVisible)
 
     return () => {
       video.removeEventListener("loadedmetadata", tryPlay)
       video.removeEventListener("canplay", tryPlay)
+      video.removeEventListener("stalled", tryPlay)
       window.removeEventListener("pointerdown", kick)
       window.removeEventListener("touchstart", kick)
+      window.removeEventListener("touchend", kick)
+      window.removeEventListener("scroll", kick)
       window.removeEventListener("keydown", kick)
       document.removeEventListener("visibilitychange", onVisible)
     }
