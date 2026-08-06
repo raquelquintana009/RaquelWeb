@@ -1,12 +1,15 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 // Full-bleed Liminal Breath background video for the Home section.
 // Self-hosted (muted, looping) so there is no player UI — no play/pause
-// button, no title overlay. The poster shows instantly while it loads.
+// button, no title overlay. A static poster layer sits *behind* the video
+// so any buffer/decode/loop hitch reveals the still frame instead of a
+// black flash, and the video fades in once it actually starts playing.
 export function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
 
   // React doesn't reliably set the `muted` DOM property before the browser's
   // autoplay check, which can block playback. Force muted + play on mount.
@@ -24,15 +27,28 @@ export function HeroVideo() {
 
   return (
     <section id="home" className="relative h-[100svh] w-full overflow-hidden bg-black">
+      {/* Poster still sits behind the video and never moves, so a buffer,
+          decode, or loop-restart hitch shows this frame instead of black. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url(/liminal-breath-poster.jpg)" }}
+      />
+
       <video
         ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover"
+        // transform-gpu + hidden backface promote the video to its own GPU
+        // layer, which stops the compositing repaint flicker under the
+        // overlay. Opacity fades the video in over the poster (no hard swap).
+        className="absolute inset-0 h-full w-full object-cover transform-gpu transition-opacity duration-700 ease-out"
+        style={{ opacity: playing ? 1 : 0, backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
         autoPlay
         muted
         loop
         playsInline
         preload="auto"
         poster="/liminal-breath-poster.jpg"
+        onPlaying={() => setPlaying(true)}
       >
         <source src="/liminal-breath.mp4" type="video/mp4" />
       </video>
