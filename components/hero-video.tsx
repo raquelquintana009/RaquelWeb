@@ -6,23 +6,47 @@ import { useEffect, useRef, useState } from "react"
 // Self-hosted (muted, looping) so there is no player UI — no play/pause
 // button, no title overlay. A static poster layer sits *behind* the video
 // so any buffer/decode/loop hitch reveals the still frame instead of a
-// black flash, and the video fades in once it actually starts playing.
+// black flash, and the video fades in as soon as its first frame is ready.
 export function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [playing, setPlaying] = useState(false)
+  const [visible, setVisible] = useState(false)
 
   // React doesn't reliably set the `muted` DOM property before the browser's
-  // autoplay check, which can block playback. Force muted + play on mount.
+  // autoplay check, which can block playback. Force muted, then attempt play
+  // aggressively and keep a fallback path so it can never end up stuck paused.
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
     video.muted = true
     video.defaultMuted = true
-    const tryPlay = () => video.play().catch(() => {})
+
+    const tryPlay = () => {
+      const p = video.play()
+      if (p && typeof p.catch === "function") p.catch(() => {})
+    }
     tryPlay()
-    // Retry once the data is ready in case the first attempt was too early.
-    video.addEventListener("canplay", tryPlay, { once: true })
-    return () => video.removeEventListener("canplay", tryPlay)
+
+    // Retry as the media becomes ready, in case the first attempt was early.
+    video.addEventListener("loadedmetadata", tryPlay)
+    video.addEventListener("canplay", tryPlay)
+
+    // If autoplay is blocked (iOS Low Power Mode, data saver, background tab),
+    // start on the first user interaction or when the tab becomes visible.
+    const kick = () => tryPlay()
+    const onVisible = () => { if (!document.hidden) tryPlay() }
+    window.addEventListener("pointerdown", kick, { passive: true })
+    window.addEventListener("touchstart", kick, { passive: true })
+    window.addEventListener("keydown", kick)
+    document.addEventListener("visibilitychange", onVisible)
+
+    return () => {
+      video.removeEventListener("loadedmetadata", tryPlay)
+      video.removeEventListener("canplay", tryPlay)
+      window.removeEventListener("pointerdown", kick)
+      window.removeEventListener("touchstart", kick)
+      window.removeEventListener("keydown", kick)
+      document.removeEventListener("visibilitychange", onVisible)
+    }
   }, [])
 
   return (
@@ -41,14 +65,17 @@ export function HeroVideo() {
         // layer, which stops the compositing repaint flicker under the
         // overlay. Opacity fades the video in over the poster (no hard swap).
         className="absolute inset-0 h-full w-full object-cover transform-gpu transition-opacity duration-700 ease-out"
-        style={{ opacity: playing ? 1 : 0, backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+        style={{ opacity: visible ? 1 : 0, backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
         autoPlay
         muted
         loop
         playsInline
         preload="auto"
         poster="/liminal-breath-poster.jpg"
-        onPlaying={() => setPlaying(true)}
+        // Reveal as soon as the first frame is decoded OR playback starts, so
+        // the video is never stuck hidden behind the poster if autoplay stalls.
+        onLoadedData={() => setVisible(true)}
+        onPlaying={() => setVisible(true)}
       >
         <source src="/liminal-breath.mp4" type="video/mp4" />
       </video>
